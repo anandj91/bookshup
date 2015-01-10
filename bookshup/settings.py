@@ -99,5 +99,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'home.views': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
