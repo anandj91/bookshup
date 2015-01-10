@@ -3,6 +3,11 @@ from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout, login, authenticate
 
+import logging
+
+# Getting logger instance
+login_logger = logging.getLogger(__name__)
+
 def index(request):
 	if request.user.is_authenticated():
 		return redirect(reverse('home:index'), permenant=True)
