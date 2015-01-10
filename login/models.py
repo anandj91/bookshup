@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Address(models.Model):
 	line1 = models.CharField(max_length=200,default='asfdf')
 	line2 = models.CharField(max_length=200,default='asfdf')
