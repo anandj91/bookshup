@@ -1,1 +1,24 @@
-<a href="{% url 'login:logout' %}">Logout</a>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+</head>
+<body>
+	<div id="header">
+		<a href="{% url 'login:logout' %}">Logout</a>
+	</div>
+	<div id="centre">
+		<div id="categories">Category</div>
+		<div id="main">
+			<div id="search">
+				search
+			</div>
+			<div id="result">
+				result
+			</div>
+		</div>
+	</div>
+	<div id="footer">
+		footer
+	</div>
+</body>
+</html>
