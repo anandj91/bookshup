@@ -26,6 +26,9 @@
 				<div id="filter" class="row">Filter</div>
 				<div class="row">
 					<div id="searchResult" class="container-fluid" ng-controller="SearchController" ng-switch on="searchPage">
+						<div ng-switch-when="result">
+							<div ng-include="'{% url 'home:books_search_result' %}'"></div>
+						</div>
 						<div ng-switch-default>
 							<div ng-include="'{% url 'home:books_search' %}'"></div>
 						</div>

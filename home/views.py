@@ -15,3 +15,6 @@ def books(request):
 
 def books_search(request):
 	return render(request, 'books/search.html')
+
+def books_search_result(request):
+	return render(request, 'books/result.html')

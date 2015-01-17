@@ -21,6 +21,6 @@ homeApp.controller("CategoryController",
 
 homeApp.controller("SearchController",
 	function ($scope) {
-		$scope.searchPage="home";
+		$scope.searchPage="";
 	}
 );
