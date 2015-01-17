@@ -4,3 +4,4 @@ homeApp.controller("MainController",
 	function ($scope){
 		$scope.mainShow = true;
 });
+

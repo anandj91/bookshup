@@ -1,7 +1,13 @@
 <div class="container-fluid">
 	<div class="row-fluid">
 		<div class="col-xs-2">
-			<div id="category">category</div>
+			<div id="category" ng-controller="CategoryController">
+				<ul>
+					<li ng-repeat="cat in categories">
+							{{ cat }}
+					</li>
+				</ul>
+			</div>
 		</div>
 		<div class="col-xs-10">
 			<div class="container-fluid">
