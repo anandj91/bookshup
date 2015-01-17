@@ -105,5 +105,10 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'books.views': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
