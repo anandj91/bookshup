@@ -24,17 +24,10 @@
 					</form>
 				</div>
 				<div id="filter" class="row">Filter</div>
-				<div id="searchResult" class="row">
-					<div class="container-fluid">
-						<div class="row">
-							<ul class="nav nav-tabs">
-								<li class="active">
-									<a href="#">Top Rated</a>
-								</li>
-								<li>
-									<a href="#">Best Sellers</a>
-								</li>
-							</ul>
+				<div class="row">
+					<div id="searchResult" class="container-fluid" ng-controller="SearchController" ng-switch on="searchPage">
+						<div ng-switch-default>
+							<div ng-include="'{% url 'home:books_search' %}'"></div>
 						</div>
 					</div>
 				</div>
