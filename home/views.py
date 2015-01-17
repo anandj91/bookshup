@@ -9,3 +9,9 @@ home_logger = logging.getLogger(__name__)
 
 def index(request):
 	return render(request, 'home/index.html')
+
+def books(request):
+	return render(request, 'books/index.html')
+
+def books_search(request):
+	return render(request, 'books/search.html')
