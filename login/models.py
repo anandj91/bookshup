@@ -15,9 +15,11 @@ class UserDetailsManager(models.Manager):
 		addr1=None,addr2=None,city=None,state=None,pin=None,landmark=None,phone=None):
 		user = User.objects.create_user(username,email,password)
 		# if addr1 is None or addr2 is None or city is None or state is None or pin is None or phone is None:
+		# Change this to Address.objects.create()
 		addr = Address()
 		addr.save()
 		
+		# Change this to UserDetails.objects.create()
 		ud = UserDetails(user=user,address=addr)
 		ud.save()
 		return ud

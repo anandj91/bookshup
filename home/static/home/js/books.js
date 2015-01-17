@@ -1,8 +1,9 @@
 homeApp.controller("CategoryController", 
-	function ($scope){
-		$scope.categories = [
-			"erotic",
-			"fiction",
-			"non-fiction"
-		];
-});
+	function ($scope, $http){
+		$http.get('/books/categories').success(
+				function (data) {
+					$scope.categories=data;
+				}
+			);
+	}
+);

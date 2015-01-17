@@ -7,4 +7,5 @@ urlpatterns = patterns('',
 
     url(r'^login/', include('login.urls', namespace='login')),
     url(r'^home/', include('home.urls', namespace='home')),
+    url(r'^books/', include('books.urls', namespace='books')),
 )

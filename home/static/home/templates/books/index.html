@@ -4,7 +4,7 @@
 			<div id="category" ng-controller="CategoryController">
 				<ul>
 					<li ng-repeat="cat in categories">
-							{{ cat }}
+						<a href="#{{cat.id}}">{{ cat.name }}</a>
 					</li>
 				</ul>
 			</div>
