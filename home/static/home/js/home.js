@@ -5,3 +5,12 @@ homeApp.controller("MainController",
 		$scope.mainPage = "home";
 });
 
+// For Breadcrumbs
+function pushPath($scope, path){
+
+}
+
+function popPath($scope){
+
+}
+

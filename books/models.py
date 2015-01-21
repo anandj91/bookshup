@@ -16,8 +16,10 @@ class Book(models.Model):
 	desc = models.CharField(max_length=1000)
 	genre = models.ForeignKey(Genre)
 	pages = models.IntegerField()
-	edition = models.IntegerField()
+	edition = models.IntegerField(default=1)
 	isbn = models.CharField(max_length=50)
+	rating = models.SmallIntegerField(default=-1)
+	count = models.BigIntegerField(default=0)
 
 class BookAuthor(models.Model):
 	book = models.ForeignKey(Book)
