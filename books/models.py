@@ -1,7 +1,7 @@
 from django.db import models
 
 class Genre(models.Model):
-	name = models.CharField(max_length=50)
+	name = models.CharField(max_length=50, unique=True)
 
 class Author(models.Model):
 	name = models.CharField(max_length=50)
@@ -17,7 +17,7 @@ class Book(models.Model):
 	genre = models.ForeignKey(Genre)
 	pages = models.IntegerField()
 	edition = models.IntegerField(default=1)
-	isbn = models.CharField(max_length=50)
+	isbn = models.CharField(max_length=50,unique=True)
 	rating = models.SmallIntegerField(default=-1)
 	count = models.BigIntegerField(default=0)
 
