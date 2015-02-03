@@ -4,5 +4,5 @@ from books import views
 
 urlpatterns = patterns('',
 		url(r'^$', views.index, name='index'),
-    url(r'^categories$', views.get_categories, name='get_categories'),
+    url(r'^categories$', views.categories, name='categories'),
 )
