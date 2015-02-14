@@ -5,4 +5,5 @@ from books import views
 urlpatterns = patterns('',
 		url(r'^$', views.index, name='index'),
     url(r'^categories$', views.categories, name='categories'),
+    url(r'^(?P<id>\d+)$', views.book, name='book'),
 )

@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre
 
@@ -26,16 +27,18 @@ class TestIndexResponse(TestCase):
 		ba5 = BookAuthor.objects.create(book=b4,author=a1)
 		ba6 = BookAuthor.objects.create(book=b5,author=a2)
 
-		bd1 = BookDetails.objects.create(book=b1,price=10,new=True,condition='a')
-		bd2 = BookDetails.objects.create(book=b1,price=20,new=False,condition='b')
-		bd3 = BookDetails.objects.create(book=b1,price=30,new=True,condition='a')
-		bd4 = BookDetails.objects.create(book=b2,price=20,new=False,condition='b')
-		bd5 = BookDetails.objects.create(book=b3,price=10,new=True,condition='a')
-		bd6 = BookDetails.objects.create(book=b3,price=25,new=False,condition='b')
-		bd7 = BookDetails.objects.create(book=b3,price=15,new=True,condition='a')
-		bd8 = BookDetails.objects.create(book=b3,price=20,new=False,condition='b')
-		bd9 = BookDetails.objects.create(book=b4,price=10,new=True,condition='a')
-		bd10 = BookDetails.objects.create(book=b5,price=20,new=False,condition='b')
+		user = User.objects.get(username='anandj')
+
+		bd1 = BookDetails.objects.create(book=b1,price=10,new=True,condition='a',owner=user)
+		bd2 = BookDetails.objects.create(book=b1,price=20,new=False,condition='b',owner=user)
+		bd3 = BookDetails.objects.create(book=b1,price=30,new=True,condition='a',owner=user)
+		bd4 = BookDetails.objects.create(book=b2,price=20,new=False,condition='b',owner=user)
+		bd5 = BookDetails.objects.create(book=b3,price=10,new=True,condition='a',owner=user)
+		bd6 = BookDetails.objects.create(book=b3,price=25,new=False,condition='b',owner=user)
+		bd7 = BookDetails.objects.create(book=b3,price=15,new=True,condition='a',owner=user)
+		bd8 = BookDetails.objects.create(book=b3,price=20,new=False,condition='b',owner=user)
+		bd9 = BookDetails.objects.create(book=b4,price=10,new=True,condition='a',owner=user)
+		bd10 = BookDetails.objects.create(book=b5,price=20,new=False,condition='b',owner=user)
 
 		# testing '/books/'
 		response1 = self.client.get(reverse('books:index'))
