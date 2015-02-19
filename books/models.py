@@ -22,6 +22,7 @@ class Author(models.Model):
 	died = models.DateField()
 	gender = models.CharField(max_length=1)
 	website = models.CharField(max_length=100)
+	genre = models.ManyToManyField(Genre, through='AuthorGenre')
 
 	def __str__(self):
 		return self.name
@@ -33,12 +34,13 @@ Book details
 class Book(models.Model):
 	name = models.CharField(max_length=100)
 	desc = models.CharField(max_length=1000)
-	genre = models.ForeignKey(Genre)
+	author = models.ManyToManyField(Author, through='BookAuthor')
+	genre = models.ManyToManyField(Genre, through='BookGenre')
 	pages = models.IntegerField()
 	edition = models.IntegerField(default=1)
 	isbn = models.CharField(max_length=50,unique=True)
 	rating = models.SmallIntegerField(default=-1)
-	count = models.BigIntegerField(default=0)
+	sales = models.BigIntegerField(default=0)
 
 	def __str__(self):
 		return self.name
@@ -64,6 +66,17 @@ class AuthorGenre(models.Model):
 
 	def __str__(self):
 		return self.genre.name+" - "+self.author.name
+
+
+'''
+Mapping between Book and Genre
+'''
+class BookGenre(models.Model):
+	book = models.ForeignKey(Book)
+	genre = models.ForeignKey(Genre)
+
+	def __str__(self):
+		return self.genre.name+" - "+self.book.name
 
 
 '''

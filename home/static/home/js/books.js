@@ -56,7 +56,7 @@ homeApp.controller("BookSearchController",
 			if (t === 'bs0') {
 				setTabContent('/books/?order=rating');
 			} else if (t === 'bs1') {
-				setTabContent('/books/?order=price');
+				setTabContent('/books/?order=sales');
 			}
 			
 		}

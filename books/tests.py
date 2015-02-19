@@ -2,18 +2,18 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre
+from books.models import Book, Author, BookDetails, Genre, BookAuthor, BookGenre, AuthorGenre
 
 class TestIndexResponse(TestCase):
 
 	def test_initialTest(self):
 		g1 = Genre.objects.create(name='test_genre1')
 		g2 = Genre.objects.create(name='test_genre2')
-		b1 = Book.objects.create(name='test_book1',desc='test desc1',genre=g1,pages=10,edition=1,isbn='isbn1',rating=5,count=3)
-		b2 = Book.objects.create(name='test_book2',desc='test desc2',genre=g2,pages=10,edition=1,isbn='isbn2',rating=4,count=4)
-		b3 = Book.objects.create(name='test_book3',desc='test desc3',genre=g2,pages=10,edition=1,isbn='isbn3',rating=2,count=5)
-		b4 = Book.objects.create(name='test_book4',desc='test desc4',genre=g1,pages=10,edition=1,isbn='isbn4',rating=1,count=6)
-		b5 = Book.objects.create(name='test_book5',desc='test desc5',genre=g2,pages=10,edition=1,isbn='isbn5',rating=3,count=7)
+		b1 = Book.objects.create(name='test_book1',desc='test desc1',pages=10,edition=1,isbn='isbn1',rating=5,sales=3)
+		b2 = Book.objects.create(name='test_book2',desc='test desc2',pages=10,edition=1,isbn='isbn2',rating=4,sales=4)
+		b3 = Book.objects.create(name='test_book3',desc='test desc3',pages=10,edition=1,isbn='isbn3',rating=2,sales=5)
+		b4 = Book.objects.create(name='test_book4',desc='test desc4',pages=10,edition=1,isbn='isbn4',rating=1,sales=6)
+		b5 = Book.objects.create(name='test_book5',desc='test desc5',pages=10,edition=1,isbn='isbn5',rating=3,sales=7)
 		a1 = Author.objects.create(name='test_author1',desc='test desc1',born="1991-04-11",died="1991-04-11",gender="m",website="url")
 		a2 = Author.objects.create(name='test_author2',desc='test desc2',born="1991-04-11",died="1991-04-11",gender="m",website="url")
 
@@ -26,6 +26,13 @@ class TestIndexResponse(TestCase):
 		ba4 = BookAuthor.objects.create(book=b3,author=a2)
 		ba5 = BookAuthor.objects.create(book=b4,author=a1)
 		ba6 = BookAuthor.objects.create(book=b5,author=a2)
+
+		ba1 = BookGenre.objects.create(book=b1,genre=g1)
+		ba2 = BookGenre.objects.create(book=b1,genre=g2)
+		ba3 = BookGenre.objects.create(book=b2,genre=g1)
+		ba4 = BookGenre.objects.create(book=b3,genre=g2)
+		ba5 = BookGenre.objects.create(book=b4,genre=g1)
+		ba6 = BookGenre.objects.create(book=b5,genre=g2)
 
 		user = User.objects.get(username='anandj')
 

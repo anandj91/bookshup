@@ -37,7 +37,7 @@ def index(request):
 	limit = request.GET.get('limit')
 	offset = request.GET.get('offset')
 	'''
-	order = ['rating'|'price'|'count']
+	order = ['rating'|'price'|'sales']
 	'''
 	order = request.GET.get('order')
 	category = request.GET.get('category')
@@ -55,25 +55,24 @@ def index(request):
 		'''
 		TODO: need to implement fuzzy search when text param is given
 		'''
-		books = BookDetails.objects.select_related('book').filter(book__name__icontains=text)\
-							.values('book__pk','book__name','book__rating','book__desc','book__genre__name')
+		books = BookDetails.objects.select_related('book').filter(book__name__icontains=text)
 	elif term is not None:
-		books = BookDetails.objects.select_related('book').filter(book__name__icontains=term)\
-							.values('book__pk','book__name',)
+		books = BookDetails.objects.select_related('book').filter(book__name__icontains=term)
 	else:
-		books = BookDetails.objects.select_related('book')\
-							.values('book__pk','book__name','book__rating','book__desc','book__genre__name')
+		books = BookDetails.objects.select_related('book')
 
 	if category is not None:
 		books = books.filter(book__genre=category)
-	
-	if order == 'count' or order == 'rating':
+
+	books = books.values('book__pk','book__name','book__rating','book__desc','book__sales')
+
+	if order == 'sales' or order == 'rating':
 		order = "-book__" + order
 		
 	''' 
 	Sorting the result 
 	'''
-	books = books.annotate(price=Min('price')).order_by(order)
+	books = books.annotate(price=Min('price')).order_by(order)[offset:limit+offset]
 	
 	response = []
 
@@ -81,10 +80,12 @@ def index(request):
 		r = {}
 		r['pk'] = book['book__pk']
 		r['name'] = book['book__name']
+
+		'''
+		Fetch Authors of the book
+		'''
 		bas = BookAuthor.objects.filter(book_id=book['book__pk'])
-		if not bas:
-			r['authors'] = None
-		else:
+		if bas:
 			r['authors'] = ', '.join([ba.author.name for ba in bas])
 		
 		if term is not None:
@@ -95,8 +96,15 @@ def index(request):
 		else:
 			r['desc'] = book['book__desc']
 			r['rating'] = book['book__rating']
+			r['sales'] = book['book__sales']
 			r['price'] = book['price']
-			r['genre'] = book['book__genre__name']
+
+			'''
+			Fetch Genres for the book
+			'''
+			bgs = BookGenre.objects.filter(book_id=book['book__pk'])
+			if bgs:
+				r['genre'] = ', '.join([bg.genre.name for bg in bgs])
 
 		response.append(r)
 	
@@ -107,7 +115,9 @@ def index(request):
 Details of individual book with id
 '''
 def book(request, id):
+	book = Book.objects.get(pk=id)
+
 	response = {}
-	
-	book = Book.objects.select_related('book').get(book=id)
+
 	return JsonResponse(response, safe=False)
+
