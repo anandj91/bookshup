@@ -38,7 +38,7 @@ class Book(models.Model):
 	genre = models.ManyToManyField(Genre, through='BookGenre')
 	pages = models.IntegerField()
 	edition = models.IntegerField(default=1)
-	isbn = models.CharField(max_length=50,unique=True)
+	isbn = models.CharField(max_length=50, unique=True)
 	rating = models.SmallIntegerField(default=-1)
 	sales = models.BigIntegerField(default=0)
 
@@ -84,9 +84,8 @@ Details about the books posted by users
 '''
 class BookDetails(models.Model):
 	book = models.ForeignKey(Book)
-	owner = models.ForeignKey(User,null=True)
+	owner = models.ForeignKey(User, null=True)
 	price = models.FloatField()
-	new = models.BooleanField(default=True)
 	condition = models.CharField(max_length=1)
 
 	def __str__(self):
@@ -100,6 +99,7 @@ class Comments(models.Model):
 	book = models.ForeignKey(Book)
 	user = models.ForeignKey(User)
 	comment = models.CharField(max_length=2000)
+	timestamp = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return comment
+		return self.comment

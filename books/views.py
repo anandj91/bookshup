@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.db.models import Min
 
-from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre, BookGenre
+from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre, BookGenre, Comments
 
 import logging
 
@@ -148,6 +148,16 @@ List of sellers of the book with id
 def sellers(request, id):
 	response = []
 
+	sellers = BookDetails.objects.filter(book=id)
+
+	for seller in sellers:
+		r = {}
+		r['owner'] = seller.owner
+		r['price'] = seller.price
+		r['condition'] = seller.condition
+
+		response.append(r)
+
 	return JsonResponse(response, safe=False)
 
 
@@ -156,5 +166,15 @@ List of comments of the book with id
 '''
 def comments(request, id):
 	response = []
+
+	comments = Comments.objects.filter(book=id).only('user','comment','timestamp')
+
+	for comment in comments:
+		r = {}
+		r['user'] = comment.user.username
+		r['comment'] = comment.comment
+		r['timestamp'] = comment.timestamp
+
+		response.append(r)
 
 	return JsonResponse(response, safe=False)
