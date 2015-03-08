@@ -1,12 +1,12 @@
 from django.http import JsonResponse
 from django.db.models import Min
 
-from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre
+from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre, BookGenre, Comments
 
 import logging
 
 
-''' 
+'''
 Getting logger instance 
 '''
 books_logger = logging.getLogger(__name__)
@@ -51,6 +51,9 @@ def index(request):
 
 	books = []
 
+	'''
+	Filtering by search text
+	'''
 	if text is not None:
 		'''
 		TODO: need to implement fuzzy search when text param is given
@@ -61,9 +64,15 @@ def index(request):
 	else:
 		books = BookDetails.objects.select_related('book')
 
+	'''
+	Filtering by category
+	'''
 	if category is not None:
 		books = books.filter(book__genre=category)
 
+	'''
+	Picking necessary columns to group the rows by price
+	'''
 	books = books.values('book__pk','book__name','book__rating','book__desc','book__sales')
 
 	if order == 'sales' or order == 'rating':
@@ -78,7 +87,7 @@ def index(request):
 
 	for book in books:
 		r = {}
-		r['pk'] = book['book__pk']
+		r['id'] = book['book__pk']
 		r['name'] = book['book__name']
 
 		'''
@@ -115,9 +124,65 @@ def index(request):
 Details of individual book with id
 '''
 def book(request, id):
-	book = Book.objects.get(pk=id)
+	book = Book.objects.prefetch_related('genre','author').get(pk=id)
 
 	response = {}
 
+	response['id'] = book.pk
+	response['name'] = book.name
+	response['desc'] = book.desc
+	response['authors'] = ', '.join([a.name for a in book.author.all()])
+	response['genre'] = ', '.join([g.name for g in book.genre.all()])
+	response['pages'] = book.pages
+	response['edition'] = book.edition
+	response['isbn'] = book.isbn
+	response['rating'] = book.rating
+	response['sales'] = book.sales
+
 	return JsonResponse(response, safe=False)
 
+
+'''
+List of sellers of the book with id
+'''
+def sellers(request, id):
+	limit = request.GET.get('limit')
+	offset = request.GET.get('offset')
+
+	response = []
+
+	sellers = BookDetails.objects.filter(book=id).order_by('price')[offset:limit+offset]
+
+	for seller in sellers:
+		r = {}
+		r['id'] = seller.pk
+		r['owner'] = seller.owner
+		r['price'] = seller.price
+		r['condition'] = seller.condition
+
+		response.append(r)
+
+	return JsonResponse(response, safe=False)
+
+
+'''
+List of comments of the book with id
+'''
+def comments(request, id):
+	limit = request.GET.get('limit')
+	offset = request.GET.get('offset')
+
+	response = []
+
+	comments = Comments.objects.select_related('user').filter(book=id).order_by('timestamp')[offset:limit+offset]
+
+	for comment in comments:
+		r = {}
+		r['id'] = comment.pk
+		r['user'] = comment.user.username
+		r['comment'] = comment.comment
+		r['timestamp'] = comment.timestamp
+
+		response.append(r)
+
+	return JsonResponse(response, safe=False)

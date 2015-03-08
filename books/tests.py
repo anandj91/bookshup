@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from books.models import Book, Author, BookDetails, Genre, BookAuthor, BookGenre, AuthorGenre
+from books.models import Book, Author, BookDetails, Genre, BookAuthor, BookGenre, AuthorGenre, Comments
 
 class TestIndexResponse(TestCase):
 
@@ -34,18 +34,21 @@ class TestIndexResponse(TestCase):
 		ba5 = BookGenre.objects.create(book=b4,genre=g1)
 		ba6 = BookGenre.objects.create(book=b5,genre=g2)
 
-		user = User.objects.get(username='anandj')
+		user = User.objects.create_superuser(username='admin',password='admin',email='anand.indukala@gmail.com')
 
-		bd1 = BookDetails.objects.create(book=b1,price=10,new=True,condition='a',owner=user)
-		bd2 = BookDetails.objects.create(book=b1,price=20,new=False,condition='b',owner=user)
-		bd3 = BookDetails.objects.create(book=b1,price=30,new=True,condition='a',owner=user)
-		bd4 = BookDetails.objects.create(book=b2,price=20,new=False,condition='b',owner=user)
-		bd5 = BookDetails.objects.create(book=b3,price=10,new=True,condition='a',owner=user)
-		bd6 = BookDetails.objects.create(book=b3,price=25,new=False,condition='b',owner=user)
-		bd7 = BookDetails.objects.create(book=b3,price=15,new=True,condition='a',owner=user)
-		bd8 = BookDetails.objects.create(book=b3,price=20,new=False,condition='b',owner=user)
-		bd9 = BookDetails.objects.create(book=b4,price=10,new=True,condition='a',owner=user)
-		bd10 = BookDetails.objects.create(book=b5,price=20,new=False,condition='b',owner=user)
+		bd1 = BookDetails.objects.create(book=b1,price=10,condition='a',owner=user)
+		bd2 = BookDetails.objects.create(book=b1,price=20,condition='b',owner=user)
+		bd3 = BookDetails.objects.create(book=b1,price=30,condition='a',owner=user)
+		bd4 = BookDetails.objects.create(book=b2,price=20,condition='b',owner=user)
+		bd5 = BookDetails.objects.create(book=b3,price=10,condition='a',owner=user)
+		bd6 = BookDetails.objects.create(book=b3,price=25,condition='b',owner=user)
+		bd7 = BookDetails.objects.create(book=b3,price=15,condition='a',owner=user)
+		bd8 = BookDetails.objects.create(book=b3,price=20,condition='b',owner=user)
+		bd9 = BookDetails.objects.create(book=b4,price=10,condition='a',owner=user)
+		bd10 = BookDetails.objects.create(book=b5,price=20,condition='b',owner=user)
+
+		c1 = Comments.objects.create(book=b1,user=user,comment='asdfasdfsd')
+		c2 = Comments.objects.create(book=b1,user=user,comment='asdfasdfsddfgfd')
 
 		# testing '/books/'
 		response1 = self.client.get(reverse('books:index'))
