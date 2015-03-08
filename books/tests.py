@@ -34,7 +34,7 @@ class TestIndexResponse(TestCase):
 		ba5 = BookGenre.objects.create(book=b4,genre=g1)
 		ba6 = BookGenre.objects.create(book=b5,genre=g2)
 
-		user = User.objects.get(username='anandj')
+		user = User.objects.create_superuser(username='admin',password='admin',email='anand.indukala@gmail.com')
 
 		bd1 = BookDetails.objects.create(book=b1,price=10,condition='a',owner=user)
 		bd2 = BookDetails.objects.create(book=b1,price=20,condition='b',owner=user)

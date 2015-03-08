@@ -6,7 +6,7 @@ from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGen
 import logging
 
 
-''' 
+'''
 Getting logger instance 
 '''
 books_logger = logging.getLogger(__name__)
@@ -146,12 +146,16 @@ def book(request, id):
 List of sellers of the book with id
 '''
 def sellers(request, id):
+	limit = request.GET.get('limit')
+	offset = request.GET.get('offset')
+
 	response = []
 
-	sellers = BookDetails.objects.filter(book=id)
+	sellers = BookDetails.objects.filter(book=id).order_by('price')[offset:limit+offset]
 
 	for seller in sellers:
 		r = {}
+		r['id'] = seller.pk
 		r['owner'] = seller.owner
 		r['price'] = seller.price
 		r['condition'] = seller.condition
@@ -165,12 +169,16 @@ def sellers(request, id):
 List of comments of the book with id
 '''
 def comments(request, id):
+	limit = request.GET.get('limit')
+	offset = request.GET.get('offset')
+
 	response = []
 
-	comments = Comments.objects.filter(book=id).only('user','comment','timestamp')
+	comments = Comments.objects.select_related('user').filter(book=id).order_by('timestamp')[offset:limit+offset]
 
 	for comment in comments:
 		r = {}
+		r['id'] = comment.pk
 		r['user'] = comment.user.username
 		r['comment'] = comment.comment
 		r['timestamp'] = comment.timestamp

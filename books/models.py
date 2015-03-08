@@ -86,6 +86,13 @@ class BookDetails(models.Model):
 	book = models.ForeignKey(Book)
 	owner = models.ForeignKey(User, null=True)
 	price = models.FloatField()
+	
+	'''
+	A - New book.
+	B - 2nd hand. But as good as new.
+	C - 2nd hand. Readable.
+	D - 2nd hand. Very bad condition.
+	'''
 	condition = models.CharField(max_length=1)
 
 	def __str__(self):
