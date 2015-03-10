@@ -40,7 +40,7 @@ class UserDetailsManager(models.Manager):
 
 '''
 Wrapper for user.
-Has additional field(s) like Address.
+Has additional field(s) like address, rating etc.
 '''
 class UserDetails(models.Model):
 	user = models.OneToOneField(User)

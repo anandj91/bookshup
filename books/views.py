@@ -160,14 +160,19 @@ def sellers(request, id):
 	if order is None:
 		order = 'price'
 
-	response = []
+	if order == 'rating':
+		order = 'owner__rating'
 
-	sellers = BookDetails.objects.filter(book=id).order_by('price')[offset:limit+offset]
+	sellers = BookDetails.objects.filter(book=id).select_related('owner','owner__user')\
+							.order_by(order)[offset:limit+offset]
+
+	response = []
 
 	for seller in sellers:
 		r = {}
 		r['id'] = seller.pk
-		r['owner'] = seller.owner
+		r['owner'] = seller.owner.user.username
+		r['rating'] = seller.owner.rating
 		r['price'] = seller.price
 		r['condition'] = seller.condition
 
@@ -183,9 +188,15 @@ def comments(request, id):
 	limit = request.GET.get('limit')
 	offset = request.GET.get('offset')
 
-	response = []
+	if limit is None or limit > 5 or limit < 0:
+		limit = 5
+	if offset is None:
+		offset = 0
 
-	comments = Comments.objects.select_related('user').filter(book=id).order_by('timestamp')[offset:limit+offset]
+	comments = Comments.objects.select_related('user__user').filter(book=id)\
+							.order_by('timestamp')[offset:limit+offset]
+
+	response = []
 
 	for comment in comments:
 		r = {}
