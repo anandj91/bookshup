@@ -201,7 +201,7 @@ def comments(request, id):
 	for comment in comments:
 		r = {}
 		r['id'] = comment.pk
-		r['user'] = comment.user.username
+		r['user'] = comment.user.user.username
 		r['comment'] = comment.comment
 		r['timestamp'] = comment.timestamp
 
