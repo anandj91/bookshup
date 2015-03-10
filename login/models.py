@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+'''
+Address of the user.
+'''
 class Address(models.Model):
 	line1 = models.CharField(max_length=200,default='asfdf')
 	line2 = models.CharField(max_length=200,default='asfdf')
@@ -10,21 +14,34 @@ class Address(models.Model):
 	landmark = models.CharField(max_length=200,default='asfdf')
 	phone = models.CharField(max_length=11,default='asfdf')
 
+
+'''
+Manager class for UserDetails.
+Has method to create user details object.
+'''
 class UserDetailsManager(models.Manager):
 	def create_user_details(self,username,password,email,
 		addr1=None,addr2=None,city=None,state=None,pin=None,landmark=None,phone=None):
 		user = User.objects.create_user(username,email,password)
 		# if addr1 is None or addr2 is None or city is None or state is None or pin is None or phone is None:
-		# Change this to Address.objects.create()
+		'''
+		TODO: Change this to Address.objects.create()
+		'''
 		addr = Address()
 		addr.save()
 		
-		# Change this to UserDetails.objects.create()
+		'''
+		TODO: Change this to UserDetails.objects.create()
+		'''
 		ud = UserDetails(user=user,address=addr)
 		ud.save()
 		return ud
 
 
+'''
+Wrapper for user.
+Has additional field(s) like Address.
+'''
 class UserDetails(models.Model):
 	user = models.OneToOneField(User)
 	address = models.ForeignKey(Address)
