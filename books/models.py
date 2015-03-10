@@ -39,7 +39,11 @@ class Book(models.Model):
 	pages = models.IntegerField()
 	edition = models.IntegerField(default=1)
 	isbn = models.CharField(max_length=50, unique=True)
-	rating = models.SmallIntegerField(default=-1)
+	'''
+	rating - 1 to 5
+	'''
+	rating = models.SmallIntegerField(default=0)
+	no_of_ratings = models.BigIntegerField(default=0)
 	sales = models.BigIntegerField(default=0)
 
 	def __str__(self):

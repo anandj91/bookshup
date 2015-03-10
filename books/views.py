@@ -42,7 +42,7 @@ def index(request):
 	order = request.GET.get('order')
 	category = request.GET.get('category')
 
-	if limit is None or limit > 20:
+	if limit is None or limit > 20 or limit < 0:
 		limit = 20
 	if offset is None:
 		offset = 0
@@ -148,6 +148,17 @@ List of sellers of the book with id
 def sellers(request, id):
 	limit = request.GET.get('limit')
 	offset = request.GET.get('offset')
+	'''
+	order = ['rating'|'price']
+	'''
+	order = request.GET.get('order')
+
+	if limit is None or limit > 5 or limit < 0:
+		limit = 5
+	if offset is None:
+		offset = 0
+	if order is None:
+		order = 'price'
 
 	response = []
 

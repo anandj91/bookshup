@@ -45,5 +45,10 @@ Has additional field(s) like Address.
 class UserDetails(models.Model):
 	user = models.OneToOneField(User)
 	address = models.ForeignKey(Address)
+	'''
+	rating - 1 to 5
+	'''
+	rating = models.SmallIntegerField(default=0)
+	no_of_ratings = models.BigIntegerField(default=0)
 
 	objects = UserDetailsManager()
