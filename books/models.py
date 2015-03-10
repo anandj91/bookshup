@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from login.models import UserDetails
+
 
 '''
 Category/Genre of a Book/Author
@@ -88,7 +90,7 @@ Details about the books posted by users
 '''
 class BookDetails(models.Model):
 	book = models.ForeignKey(Book)
-	owner = models.ForeignKey(User, null=True)
+	owner = models.ForeignKey(UserDetails, null=True)
 	price = models.FloatField()
 	
 	'''
@@ -108,7 +110,7 @@ Comments on a particular book
 '''
 class Comments(models.Model):
 	book = models.ForeignKey(Book)
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(UserDetails)
 	comment = models.CharField(max_length=2000)
 	timestamp = models.DateTimeField(auto_now_add=True)
 
