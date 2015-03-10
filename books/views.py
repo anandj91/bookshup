@@ -161,7 +161,7 @@ def sellers(request, id):
 		order = 'price'
 
 	if order == 'rating':
-		order = 'owner__rating'
+		order = '-owner__rating'
 
 	sellers = BookDetails.objects.filter(book=id).select_related('owner','owner__user')\
 							.order_by(order)[offset:limit+offset]
