@@ -29,12 +29,12 @@ class TestIndexResponse(TestCase):
 		ba5 = BookAuthor.objects.create(book=b4,author=a1)
 		ba6 = BookAuthor.objects.create(book=b5,author=a2)
 
-		ba1 = BookGenre.objects.create(book=b1,genre=g1)
-		ba2 = BookGenre.objects.create(book=b1,genre=g2)
-		ba3 = BookGenre.objects.create(book=b2,genre=g1)
-		ba4 = BookGenre.objects.create(book=b3,genre=g2)
-		ba5 = BookGenre.objects.create(book=b4,genre=g1)
-		ba6 = BookGenre.objects.create(book=b5,genre=g2)
+		bg1 = BookGenre.objects.create(book=b1,genre=g1)
+		bg2 = BookGenre.objects.create(book=b1,genre=g2)
+		bg3 = BookGenre.objects.create(book=b2,genre=g1)
+		bg4 = BookGenre.objects.create(book=b3,genre=g2)
+		bg5 = BookGenre.objects.create(book=b4,genre=g1)
+		bg6 = BookGenre.objects.create(book=b5,genre=g2)
 
 		ud = UserDetails.objects.create_user_details(username='admin',password='admin',email='anand.indukala@gmail.com')
 
