@@ -11,6 +11,7 @@ class BookDetails(models.Model):
 	book = models.ForeignKey(Book)
 	owner = models.ForeignKey(UserDetails, null=True)
 	price = models.FloatField()
+	timestamp = models.DateTimeField(auto_now_add=True)
 	
 	'''
 	A - New book.
@@ -27,9 +28,10 @@ class BookDetails(models.Model):
 '''
 Interests of users in a book
 '''
-class Interests(models.Model):
+class BuyInterests(models.Model):
 	user = models.ForeignKey(UserDetails)
-	BookDetail = models.ForeignKey(BookDetails)
+	book = models.ForeignKey(BookDetails)
+	timestamp = models.DateTimeField(auto_now_add=True)
 	
 
 

@@ -47,6 +47,7 @@ class UserDetails(models.Model):
 	address = models.ForeignKey(Address)
 	'''
 	rating - 1 to 5
+	Rating of the seller.
 	'''
 	rating = models.SmallIntegerField(default=0)
 	no_of_ratings = models.BigIntegerField(default=0)
