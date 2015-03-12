@@ -1,7 +1,9 @@
 from django.http import JsonResponse
 from django.db.models import Min
 
-from books.models import Book, BookAuthor, Author, BookDetails, Genre, AuthorGenre, BookGenre, Comments
+from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre, Comments
+from shop.models import BookDetails
+from login.models import UserDetails
 
 import logging
 
