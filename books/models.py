@@ -86,26 +86,6 @@ class BookGenre(models.Model):
 
 
 '''
-Details about the books posted by users
-'''
-class BookDetails(models.Model):
-	book = models.ForeignKey(Book)
-	owner = models.ForeignKey(UserDetails, null=True)
-	price = models.FloatField()
-	
-	'''
-	A - New book.
-	B - 2nd hand. But as good as new.
-	C - 2nd hand. Readable.
-	D - 2nd hand. Very bad condition.
-	'''
-	condition = models.CharField(max_length=1)
-
-	def __str__(self):
-		return str(self.book)+" - "+str(self.price)
-
-
-'''
 Comments on a particular book
 '''
 class Comments(models.Model):

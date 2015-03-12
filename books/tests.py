@@ -1,8 +1,10 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 
-from books.models import Book, Author, BookDetails, Genre, BookAuthor, BookGenre, AuthorGenre, Comments
+from books.models import Book, Author, Genre, BookAuthor, BookGenre, AuthorGenre, Comments
 from login.models import UserDetails
+from shop.models import BookDetails
+
 
 class TestIndexResponse(TestCase):
 
