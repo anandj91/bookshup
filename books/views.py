@@ -97,7 +97,7 @@ def index(request):
 		'''
 		bas = BookAuthor.objects.filter(book_id=book['book__pk'])
 		if bas:
-			r['authors'] = ', '.join([ba.author.name for ba in bas])
+			r['authors'] = [ba.author.name for ba in bas]
 		
 		if term is not None:
 			tr = {}
@@ -115,7 +115,7 @@ def index(request):
 			'''
 			bgs = BookGenre.objects.filter(book_id=book['book__pk'])
 			if bgs:
-				r['genre'] = ', '.join([bg.genre.name for bg in bgs])
+				r['genre'] = [bg.genre.name for bg in bgs]
 
 		response.append(r)
 	
@@ -133,8 +133,8 @@ def book(request, id):
 	response['id'] = book.pk
 	response['name'] = book.name
 	response['desc'] = book.desc
-	response['authors'] = ', '.join([a.name for a in book.author.all()])
-	response['genre'] = ', '.join([g.name for g in book.genre.all()])
+	response['authors'] = [a.name for a in book.author.all()]
+	response['genre'] = [g.name for g in book.genre.all()]
 	response['pages'] = book.pages
 	response['edition'] = book.edition
 	response['isbn'] = book.isbn
