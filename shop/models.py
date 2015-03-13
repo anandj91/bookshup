@@ -26,12 +26,36 @@ class BookDetails(models.Model):
 
 
 '''
+Manager for SYN
+'''
+class SYNManager(models.Manager):
+	def create_syn(buyer,book):
+		if buyer is None or book is None:
+			return None
+
+		return create(user=user,book=book)
+
+
+'''
 Request to buy a book from buyer
 '''
 class SYN(models.Model):
 	buyer = models.ForeignKey(UserDetails)
 	book = models.ForeignKey(BookDetails)
 	syn_ts = models.DateTimeField(auto_now_add=True)
+
+	objects = SYNManager()
+
+
+'''
+Manager for ACK
+'''
+class ACKManager(models.Manager):
+	def create_ack(buyer,seller,book,syn_ts):
+		if buyer is None or seller is None or book is None or syn_ts is None:
+			return None
+
+		return create(user=user,seller=seller,book=book,syn_ts=syn_ts)
 
 
 '''
@@ -43,6 +67,19 @@ class ACK(models.Model):
 	book = models.ForeignKey(BookDetails)
 	syn_ts = models.DateTimeField()
 	ack_ts = models.DateTimeField(auto_now_add=True)
+
+	objects = ACKManager()
+
+
+'''
+Manager for SYNACK
+'''
+class SYNACKManager(models.Manager):
+	def create_ack(buyer,seller,book,syn_ts,ack_ts):
+		if buyer is None or seller is None or book is None or syn_ts is None or ack_ts is None:
+			return None
+
+		return create(user=user,seller=seller,book=book,syn_ts=syn_ts,ack_ts=ack_ts)
 
 
 '''
@@ -59,4 +96,6 @@ class SYNACK(models.Model):
 	Mode of payment - [COD|ONLINE]
 	'''
 	mode = models.CharField(max_length=10)
+
+	objects = SYNACKManager()
 

@@ -26,7 +26,7 @@ def buy(request):
 	'''
 	Register Buy Interest
 	'''
-	syn = SYN.objects.create(user=user,book=book)
+	syn = SYN.objects.create_syn(user=user,book=book)
 
 	'''
 	Validation
