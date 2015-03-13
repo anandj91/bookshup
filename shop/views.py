@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre, Comments
-from shop.models import BookDetails, SYN
+from shop.models import BookDetails, SYN, ACK, SYNACK
 from login.models import UserDetails
 
 import logging
@@ -21,7 +21,8 @@ def buy(request):
 	# user = UserDetails.objects.get(user=request.user)
 	user = UserDetails.objects.get(user__username='admin')
 
-	response = True
+	response = {}
+	response['status'] = True
 
 	'''
 	Register Buy Interest
@@ -32,7 +33,7 @@ def buy(request):
 	Validation
 	'''
 	if syn is None:
-		response = False
+		response['status'] = False
 
 	'''
 	TODO: Notify the seller through internal notification and e-mail
@@ -50,7 +51,8 @@ def sell(request):
 	price = request.GET.get('price')
 	condition = request.GET.get('condition')
 
-	response = True
+	response = {}
+	response['status'] = True
 
 	'''
 	Register a new BookDetails entry
@@ -61,6 +63,6 @@ def sell(request):
 	Validation
 	'''
 	if entry is None:
-		response = False
+		response['status'] = False
 
 	return JsonResponse(response, safe=False)
