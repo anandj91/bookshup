@@ -26,12 +26,37 @@ class BookDetails(models.Model):
 
 
 '''
-Interests of users in a book
+Request to buy a book from buyer
 '''
-class BuyInterests(models.Model):
-	user = models.ForeignKey(UserDetails)
+class SYN(models.Model):
+	buyer = models.ForeignKey(UserDetails)
 	book = models.ForeignKey(BookDetails)
-	timestamp = models.DateTimeField(auto_now_add=True)
-	
+	syn_ts = models.DateTimeField(auto_now_add=True)
 
+
+'''
+Response from seller to the SYN
+'''
+class ACK(models.Model):
+	buyer = models.ForeignKey(UserDetails, related_name='+')
+	seller = models.ForeignKey(UserDetails, related_name='+')
+	book = models.ForeignKey(BookDetails)
+	syn_ts = models.DateTimeField()
+	ack_ts = models.DateTimeField(auto_now_add=True)
+
+
+'''
+Payment from buyer and send the address to seller
+'''
+class SYNACK(models.Model):
+	buyer = models.ForeignKey(UserDetails, related_name='+')
+	seller = models.ForeignKey(UserDetails, related_name='+')
+	book = models.ForeignKey(BookDetails)
+	syn_ts = models.DateTimeField()
+	ack_ts = models.DateTimeField()
+	synack_ts = models.DateTimeField(auto_now_add=True)
+	'''
+	Mode of payment - [COD|ONLINE]
+	'''
+	mode = models.CharField(max_length=10)
 

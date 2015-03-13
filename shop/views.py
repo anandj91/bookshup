@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre, Comments
-from shop.models import BookDetails, BuyInterests
+from shop.models import BookDetails, SYN
 from login.models import UserDetails
 
 import logging
@@ -26,12 +26,12 @@ def buy(request):
 	'''
 	Register Buy Interest
 	'''
-	interest = BuyInterests.objects.create(user=user,book=book)
+	syn = SYN.objects.create(user=user,book=book)
 
 	'''
 	Validation
 	'''
-	if interest is None:
+	if syn is None:
 		response = False
 
 	'''
