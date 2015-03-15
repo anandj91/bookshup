@@ -33,7 +33,7 @@ class SYNManager(models.Manager):
 		if buyer is None or book is None:
 			return None
 
-		return create(user=user,book=book)
+		return create(buyer=user,book=book)
 
 
 '''
@@ -51,11 +51,13 @@ class SYN(models.Model):
 Manager for ACK
 '''
 class ACKManager(models.Manager):
-	def create_ack(buyer,seller,book,syn_ts):
-		if buyer is None or seller is None or book is None or syn_ts is None:
+	def create_ack(syn_id):
+		syn = SYN.objects.get(pk=syn_id).select_related('book')
+
+		if syn is None:
 			return None
 
-		return create(user=user,seller=seller,book=book,syn_ts=syn_ts)
+		return create(buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts)
 
 
 '''
@@ -79,7 +81,7 @@ class SYNACKManager(models.Manager):
 		if buyer is None or seller is None or book is None or syn_ts is None or ack_ts is None:
 			return None
 
-		return create(user=user,seller=seller,book=book,syn_ts=syn_ts,ack_ts=ack_ts)
+		return create(buyer=user,seller=seller,book=book,syn_ts=syn_ts,ack_ts=ack_ts)
 
 
 '''

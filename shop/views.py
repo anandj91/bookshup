@@ -27,7 +27,7 @@ def buy(request):
 	'''
 	Register Buy Interest
 	'''
-	syn = SYN.objects.create_syn(user=user,book=book)
+	syn = SYN.objects.create_syn(buyer=user,book=book)
 
 	'''
 	Validation
@@ -37,6 +37,33 @@ def buy(request):
 
 	'''
 	TODO: Notify the seller through internal notification and e-mail
+	'''
+
+	return JsonResponse(response, safe=False)
+
+
+'''
+Acknowledge the buy request
+'''
+def acknowledgement(request):
+	syn = request.GET.get('syn')
+
+	response = {}
+	response['status'] = True
+
+	'''
+	Register ACK
+	'''
+	ack = ACK.objects.create_ack(syn_id=syn)
+
+	'''
+	Validation
+	'''
+	if ack is None:
+		response['status'] = False
+
+	'''
+	TODO: Notify buyer through internal notification and e-mail
 	'''
 
 	return JsonResponse(response, safe=False)
