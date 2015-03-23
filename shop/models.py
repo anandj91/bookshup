@@ -5,6 +5,26 @@ from login.models import UserDetails
 
 
 '''
+Mode of payment - [COD|ONLINE]
+'''
+class ModeOfPayment(models.Model):
+	mode = models.CharField(max_length=10)
+	desc = models.CharField(max_length=200)
+
+
+'''
+Condition of the book
+	A - New book.
+	B - 2nd hand. But as good as new.
+	C - 2nd hand. Readable.
+	D - 2nd hand. Bad condition.
+'''
+class Condition(models.Model):
+	condition = models.CharField(max_length=1)
+	desc = models.CharField(max_length=200)
+
+
+'''
 Details about the books posted by users
 '''
 class BookDetails(models.Model):
@@ -12,13 +32,7 @@ class BookDetails(models.Model):
 	owner = models.ForeignKey(UserDetails, null=True)
 	price = models.FloatField()
 	timestamp = models.DateTimeField(auto_now_add=True)
-	
-	'''
-	A - New book.
-	B - 2nd hand. But as good as new.
-	C - 2nd hand. Readable.
-	D - 2nd hand. Very bad condition.
-	'''
+	mode = models.ManyToManyField(ModeOfPayment)
 	condition = models.CharField(max_length=1)
 
 	def __str__(self):
@@ -29,11 +43,15 @@ class BookDetails(models.Model):
 Manager for SYN
 '''
 class SYNManager(models.Manager):
-	def create_syn(buyer,book):
-		if buyer is None or book is None:
+	def create_syn(buyer,book,mode):
+		if buyer is None or book is None or mode is None:
 			return None
 
-		return create(buyer=user,book=book)
+		'''
+		TODO: Add validation
+		'''
+
+		return create(buyer=user,book=book,mode=mode)
 
 
 '''
@@ -43,8 +61,12 @@ class SYN(models.Model):
 	buyer = models.ForeignKey(UserDetails)
 	book = models.ForeignKey(BookDetails)
 	syn_ts = models.DateTimeField(auto_now_add=True)
+	mode = models.ForeignKey(ModeOfPayment)
 
 	objects = SYNManager()
+
+	def __str__(self):
+		return str(self.buyer)+" - "+str(self.book)
 
 
 '''
@@ -57,7 +79,11 @@ class ACKManager(models.Manager):
 		if syn is None:
 			return None
 
-		return create(buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts)
+		'''
+		TODO: Add validation
+		'''
+
+		return create(buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts,mode=syn.mode)
 
 
 '''
@@ -69,19 +95,29 @@ class ACK(models.Model):
 	book = models.ForeignKey(BookDetails)
 	syn_ts = models.DateTimeField()
 	ack_ts = models.DateTimeField(auto_now_add=True)
+	mode = models.ForeignKey(ModeOfPayment)
 
 	objects = ACKManager()
+
+	def __str__(self):
+		return str(self.buyer)+" - "+str(self.seller)+" - "+str(self.book)
 
 
 '''
 Manager for SYNACK
 '''
 class SYNACKManager(models.Manager):
-	def create_ack(buyer,seller,book,syn_ts,ack_ts):
-		if buyer is None or seller is None or book is None or syn_ts is None or ack_ts is None:
-			return None
+	def create_ack(ack_id):
+		ack = ACK.objects.get(pk=ack_id)
 
-		return create(buyer=user,seller=seller,book=book,syn_ts=syn_ts,ack_ts=ack_ts)
+		if ack is None:
+			return None
+		
+		'''
+		TODO: Add validation
+		'''
+		
+		return create(buyer=ack.buyer,seller=ack.seller,book=ack.book,syn_ts=ack.syn_ts,ack_ts=ack.ack_ts,mode=mode)
 
 
 '''
@@ -94,10 +130,10 @@ class SYNACK(models.Model):
 	syn_ts = models.DateTimeField()
 	ack_ts = models.DateTimeField()
 	synack_ts = models.DateTimeField(auto_now_add=True)
-	'''
-	Mode of payment - [COD|ONLINE]
-	'''
-	mode = models.CharField(max_length=10)
+	mode = models.ForeignKey(ModeOfPayment)
 
 	objects = SYNACKManager()
+
+	def __str__(self):
+		return str(self.buyer)+" - "+str(self.seller)+" - "+str(self.book)
 
