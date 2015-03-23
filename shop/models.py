@@ -58,10 +58,10 @@ class SYNManager(models.Manager):
 Request to buy a book from buyer
 '''
 class SYN(models.Model):
-	buyer = models.ForeignKey(UserDetails)
-	book = models.ForeignKey(BookDetails)
+	buyer = models.ForeignKey(UserDetails, null=False)
+	book = models.ForeignKey(BookDetails, null=False)
 	syn_ts = models.DateTimeField(auto_now_add=True)
-	mode = models.ForeignKey(ModeOfPayment)
+	mode = models.ForeignKey(ModeOfPayment, null=False)
 
 	objects = SYNManager()
 
@@ -90,12 +90,12 @@ class ACKManager(models.Manager):
 Response from seller to the SYN
 '''
 class ACK(models.Model):
-	buyer = models.ForeignKey(UserDetails, related_name='+')
-	seller = models.ForeignKey(UserDetails, related_name='+')
-	book = models.ForeignKey(BookDetails)
+	buyer = models.ForeignKey(UserDetails, null=False, related_name='+')
+	seller = models.ForeignKey(UserDetails, null=False, related_name='+')
+	book = models.ForeignKey(BookDetails, null=False)
 	syn_ts = models.DateTimeField()
 	ack_ts = models.DateTimeField(auto_now_add=True)
-	mode = models.ForeignKey(ModeOfPayment)
+	mode = models.ForeignKey(ModeOfPayment, null=False)
 
 	objects = ACKManager()
 
@@ -116,7 +116,7 @@ class SYNACKManager(models.Manager):
 		'''
 		TODO: Add validation
 		'''
-		
+
 		return create(buyer=ack.buyer,seller=ack.seller,book=ack.book,syn_ts=ack.syn_ts,ack_ts=ack.ack_ts,mode=mode)
 
 
@@ -124,13 +124,13 @@ class SYNACKManager(models.Manager):
 Payment from buyer and send the address to seller
 '''
 class SYNACK(models.Model):
-	buyer = models.ForeignKey(UserDetails, related_name='+')
-	seller = models.ForeignKey(UserDetails, related_name='+')
-	book = models.ForeignKey(BookDetails)
+	buyer = models.ForeignKey(UserDetails, null=False, related_name='+')
+	seller = models.ForeignKey(UserDetails, null=False, related_name='+')
+	book = models.ForeignKey(BookDetails, null=False)
 	syn_ts = models.DateTimeField()
 	ack_ts = models.DateTimeField()
 	synack_ts = models.DateTimeField(auto_now_add=True)
-	mode = models.ForeignKey(ModeOfPayment)
+	mode = models.ForeignKey(ModeOfPayment, null=False)
 
 	objects = SYNACKManager()
 
