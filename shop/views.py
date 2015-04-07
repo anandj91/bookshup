@@ -87,7 +87,7 @@ def payment(request):
 	'''
 	Validation
 	'''
-	if ack is not None:
+	if synack is not None:
 		response['status'] = True
 
 	'''
