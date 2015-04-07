@@ -18,8 +18,7 @@ Want to buy request
 '''
 def buy(request):
 	book = BookDetails.objects.get(pk=request.GET.get('id'))
-	# user = UserDetails.objects.get(user=request.user)
-	user = UserDetails.objects.get(user__username='admin')
+	user = UserDetails.objects.get(user=request.user)
 
 	response = {}
 	response['status'] = False
