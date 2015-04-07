@@ -22,7 +22,7 @@ def buy(request):
 	user = UserDetails.objects.get(user__username='admin')
 
 	response = {}
-	response['status'] = True
+	response['status'] = False
 
 	'''
 	Register Buy Interest
@@ -32,8 +32,8 @@ def buy(request):
 	'''
 	Validation
 	'''
-	if syn is None:
-		response['status'] = False
+	if syn is not None:
+		response['status'] = True
 
 	'''
 	TODO: Notify the seller through internal notification and e-mail
@@ -49,7 +49,7 @@ def acknowledgement(request):
 	syn = request.GET.get('syn')
 
 	response = {}
-	response['status'] = True
+	response['status'] = False
 
 	'''
 	Register ACK
@@ -59,8 +59,8 @@ def acknowledgement(request):
 	'''
 	Validation
 	'''
-	if ack is None:
-		response['status'] = False
+	if ack is not None:
+		response['status'] = True
 
 	'''
 	TODO: Notify buyer through internal notification and e-mail
@@ -70,16 +70,45 @@ def acknowledgement(request):
 
 
 '''
+Payment
+TODO: Integrate with Online payment gateways
+'''
+def payment(request):
+	ack = request.GET.get('ack')
+
+	response = {}
+	response['status'] = False
+
+	'''
+	Register SYNACK
+	'''
+	synack = SYNACK.objects.create_synack(ack_id=ack)
+
+	'''
+	Validation
+	'''
+	if ack is not None:
+		response['status'] = True
+
+	'''
+	TODO: Notify buyer and seller through internal notification and e-mail
+	'''
+
+	return JsonResponse(response, safe=False)
+
+
+'''
 Want to sell request
 '''
 def sell(request):
-	book = Book.objects.get(request.GET.get('id'))
+	book_id = request.GET.get('id')
+	book = Book.objects.get(book_id)
 	owner = request.user
 	price = request.GET.get('price')
 	condition = request.GET.get('condition')
 
 	response = {}
-	response['status'] = True
+	response['status'] = False
 
 	'''
 	Register a new BookDetails entry
@@ -89,7 +118,7 @@ def sell(request):
 	'''
 	Validation
 	'''
-	if entry is None:
-		response['status'] = False
+	if entry is not None:
+		response['status'] = True
 
 	return JsonResponse(response, safe=False)

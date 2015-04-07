@@ -51,7 +51,8 @@ class SYNManager(models.Manager):
 		TODO: Add validation
 		'''
 
-		return create(buyer=user,book=book,mode=mode)
+		result = create(buyer=user,book=book,mode=mode)
+		return result
 
 
 '''
@@ -83,7 +84,9 @@ class ACKManager(models.Manager):
 		TODO: Add validation
 		'''
 
-		return create(buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts,mode=syn.mode)
+		result = create(buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts,mode=syn.mode)
+		syn.delete()
+		return result
 
 
 '''
@@ -107,7 +110,7 @@ class ACK(models.Model):
 Manager for SYNACK
 '''
 class SYNACKManager(models.Manager):
-	def create_ack(ack_id):
+	def create_synack(ack_id):
 		ack = ACK.objects.get(pk=ack_id)
 
 		if ack is None:
@@ -117,7 +120,9 @@ class SYNACKManager(models.Manager):
 		TODO: Add validation
 		'''
 
-		return create(buyer=ack.buyer,seller=ack.seller,book=ack.book,syn_ts=ack.syn_ts,ack_ts=ack.ack_ts,mode=mode)
+		result = create(buyer=ack.buyer,seller=ack.seller,book=ack.book,syn_ts=ack.syn_ts,ack_ts=ack.ack_ts,mode=mode)
+		ack.delete()
+		return result
 
 
 '''
