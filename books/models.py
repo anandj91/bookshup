@@ -83,16 +83,3 @@ class BookGenre(models.Model):
 
 	def __str__(self):
 		return self.genre.name+" - "+self.book.name
-
-
-'''
-Comments on a particular book
-'''
-class Comments(models.Model):
-	book = models.ForeignKey(Book)
-	user = models.ForeignKey(UserDetails)
-	comment = models.CharField(max_length=2000)
-	timestamp = models.DateTimeField(auto_now_add=True)
-
-	def __str__(self):
-		return self.comment

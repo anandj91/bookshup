@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.db.models import Min
 
-from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre, Comments
+from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre
 from shop.models import BookDetails
 from login.models import UserDetails
 
@@ -177,35 +177,6 @@ def sellers(request, id):
 		r['rating'] = seller.owner.rating
 		r['price'] = seller.price
 		r['condition'] = seller.condition
-
-		response.append(r)
-
-	return JsonResponse(response, safe=False)
-
-
-'''
-List of comments of the book with id
-'''
-def comments(request, id):
-	limit = request.GET.get('limit')
-	offset = request.GET.get('offset')
-
-	if limit is None or limit > 5 or limit < 0:
-		limit = 5
-	if offset is None:
-		offset = 0
-
-	comments = Comments.objects.select_related('user__user').filter(book=id)\
-							.order_by('timestamp')[offset:limit+offset]
-
-	response = []
-
-	for comment in comments:
-		r = {}
-		r['id'] = comment.pk
-		r['user'] = comment.user.user.username
-		r['comment'] = comment.comment
-		r['timestamp'] = comment.timestamp
 
 		response.append(r)
 
