@@ -1,0 +1,14 @@
+#
+# Compiled source
+#
+*.pyc
+
+#
+# Migration scripts
+#
+**/migrations/**
+
+#
+# SQLite file
+#
+db.sqlite3
