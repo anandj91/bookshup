@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^home/', include('home.urls', namespace='home')),
     url(r'^books/', include('books.urls', namespace='books')),
     url(r'^shop/', include('shop.urls', namespace='shop')),
+    url(r'^comments/', include('comments.urls', namespace='comments')),
 )

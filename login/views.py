@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout, login, authenticate
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 
 from login.models import UserDetails

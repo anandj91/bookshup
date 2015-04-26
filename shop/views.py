@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre, Comments
+from books.models import Book, BookAuthor, Author, Genre, AuthorGenre, BookGenre
 from shop.models import BookDetails, SYN, ACK, SYNACK
 from login.models import UserDetails
 

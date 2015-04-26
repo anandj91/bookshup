@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'home',
     'books',
     'shop',
+    'comments',
+    'notify',
 )
 
 MIDDLEWARE_CLASSES = (

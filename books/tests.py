@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from books.models import Book, Author, Genre, BookAuthor, BookGenre, AuthorGenre
 from login.models import UserDetails
 from shop.models import BookDetails
-from comments.models import Comments
+from comments.models import BookComments, UserComments
 
 
 class TestIndexResponse(TestCase):
@@ -50,8 +50,10 @@ class TestIndexResponse(TestCase):
 		bd9 = BookDetails.objects.create(book=b4,price=10,condition='a',owner=ud)
 		bd10 = BookDetails.objects.create(book=b5,price=20,condition='b',owner=ud)
 
-		c1 = Comments.objects.create(book=b1,user=ud,comment='asdfasdfsd')
-		c2 = Comments.objects.create(book=b1,user=ud,comment='asdfasdfsddfgfd')
+		bc1 = BookComments.objects.create(book=b1,user=ud,comment='asdfasdfsd')
+		bc2 = BookComments.objects.create(book=b1,user=ud,comment='asdfasdfsddfgfd')
+		uc1 = UserComments.objects.create(seller=ud,user=ud,comment='asdfasdfsd')
+		uc2 = UserComments.objects.create(seller=ud,user=ud,comment='asdfasdfsddfgfd')
 
 		# testing '/books/'
 		response1 = self.client.get(reverse('books:index'))
