@@ -84,7 +84,7 @@ class ACKManager(models.Manager):
 		TODO: Add validation
 		'''
 
-		result = create(buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts,mode=syn.mode)
+		result = create(refNo=syn_id,buyer=syn.buyer,seller=syn.book.owner,book=syn.book,syn_ts=syn.syn_ts,mode=syn.mode)
 		syn.delete()
 		return result
 
@@ -93,6 +93,7 @@ class ACKManager(models.Manager):
 Response from seller to the SYN
 '''
 class ACK(models.Model):
+	refNo = models.CharField(max_length=10)
 	buyer = models.ForeignKey(UserDetails, null=False, related_name='+')
 	seller = models.ForeignKey(UserDetails, null=False, related_name='+')
 	book = models.ForeignKey(BookDetails, null=False)
@@ -120,7 +121,7 @@ class SYNACKManager(models.Manager):
 		TODO: Add validation
 		'''
 
-		result = create(buyer=ack.buyer,seller=ack.seller,book=ack.book,syn_ts=ack.syn_ts,ack_ts=ack.ack_ts,mode=mode)
+		result = create(refNo=ack.refNo,buyer=ack.buyer,seller=ack.seller,book=ack.book,syn_ts=ack.syn_ts,ack_ts=ack.ack_ts,mode=mode)
 		ack.delete()
 		return result
 
@@ -129,6 +130,7 @@ class SYNACKManager(models.Manager):
 Payment from buyer and send the address to seller
 '''
 class SYNACK(models.Model):
+	refNo = models.CharField(max_length=10)
 	buyer = models.ForeignKey(UserDetails, null=False, related_name='+')
 	seller = models.ForeignKey(UserDetails, null=False, related_name='+')
 	book = models.ForeignKey(BookDetails, null=False)

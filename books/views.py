@@ -20,12 +20,15 @@ Get categories
 def categories(request):
 	genres = Genre.objects.all()
 
-	response = []
+	response = {}
+	response['status'] = True
+	response['result'] = []
+
 	for genre in genres:
 		r = {}
 		r['id'] = genre.pk
 		r['name'] = genre.name
-		response.append(r)
+		response['result'].append(r)
 
 	return JsonResponse(response, safe=False)
 
@@ -51,7 +54,7 @@ def index(request):
 	if order is None:
 		order = 'rating'
 
-	books = []
+	books = None
 
 	'''
 	Filtering by search text
@@ -85,7 +88,9 @@ def index(request):
 	'''
 	books = books.annotate(price=Min('price')).order_by(order)[offset:limit+offset]
 	
-	response = []
+	response = {}
+	response['status'] = True
+	response['result'] = []
 
 	for book in books:
 		r = {}
@@ -117,7 +122,7 @@ def index(request):
 			if bgs:
 				r['genre'] = [bg.genre.name for bg in bgs]
 
-		response.append(r)
+		response['result'].append(r)
 	
 	return JsonResponse(response, safe=False)
 
@@ -129,17 +134,22 @@ def book(request, id):
 	book = Book.objects.prefetch_related('genre','author').get(pk=id)
 
 	response = {}
+	response['status'] = True
+	
+	r = {}
 
-	response['id'] = book.pk
-	response['name'] = book.name
-	response['desc'] = book.desc
-	response['authors'] = [a.name for a in book.author.all()]
-	response['genre'] = [g.name for g in book.genre.all()]
-	response['pages'] = book.pages
-	response['edition'] = book.edition
-	response['isbn'] = book.isbn
-	response['rating'] = book.rating
-	response['sales'] = book.sales
+	r['id'] = book.pk
+	r['name'] = book.name
+	r['desc'] = book.desc
+	r['authors'] = [a.name for a in book.author.all()]
+	r['genre'] = [g.name for g in book.genre.all()]
+	r['pages'] = book.pages
+	r['edition'] = book.edition
+	r['isbn'] = book.isbn
+	r['rating'] = book.rating
+	r['sales'] = book.sales
+
+	response['result'] = r
 
 	return JsonResponse(response, safe=False)
 
@@ -168,7 +178,9 @@ def sellers(request, id):
 	sellers = BookDetails.objects.filter(book=id).select_related('owner','owner__user')\
 							.order_by(order)[offset:limit+offset]
 
-	response = []
+	response = {}
+	response['status'] = True
+	response['result'] = []
 
 	for seller in sellers:
 		r = {}
@@ -178,6 +190,6 @@ def sellers(request, id):
 		r['price'] = seller.price
 		r['condition'] = seller.condition
 
-		response.append(r)
+		response['result'].append(r)
 
 	return JsonResponse(response, safe=False)

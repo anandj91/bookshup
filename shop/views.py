@@ -33,6 +33,8 @@ def buy(request):
 	'''
 	if syn is not None:
 		response['status'] = True
+		response['result'] = {}
+		response['result']['id'] = syn.pk
 
 	'''
 	TODO: Notify the seller through internal notification and e-mail
@@ -60,6 +62,8 @@ def acknowledgement(request):
 	'''
 	if ack is not None:
 		response['status'] = True
+		response['result'] = {}
+		response['result']['id'] = ack.refNo
 
 	'''
 	TODO: Notify buyer through internal notification and e-mail
@@ -88,6 +92,8 @@ def payment(request):
 	'''
 	if synack is not None:
 		response['status'] = True
+		response['result'] = {}
+		response['result']['id'] = synack.refNo
 
 	'''
 	TODO: Notify buyer and seller through internal notification and e-mail
@@ -119,5 +125,7 @@ def sell(request):
 	'''
 	if entry is not None:
 		response['status'] = True
+		response['result'] = {}
+		response['result']['id'] = entry.pk
 
 	return JsonResponse(response, safe=False)
